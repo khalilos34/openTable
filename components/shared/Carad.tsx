@@ -1,8 +1,5 @@
-import { IoMdStar } from "react-icons/io";
-
 import Image from "next/image";
 import { GoStarFill, GoStar } from "react-icons/go";
-import { BookAIcon } from "lucide-react";
 import { GiNotebook } from "react-icons/gi";
 
 const Carad = ({ src }: { src: string }) => {
