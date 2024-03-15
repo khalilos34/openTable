@@ -1,5 +1,5 @@
-import { Menu } from "@/types";
 import { Item } from "@prisma/client";
+import MenuCard from "./MenuCard";
 
 const Menu = ({ menu }: { menu: Item[] }) => {
   return (
@@ -9,13 +9,12 @@ const Menu = ({ menu }: { menu: Item[] }) => {
           <h1 className="font-bold text-4xl">Menu</h1>
 
           <div className="flex flex-wrap justify-between">
-            <div className=" border rounded p-3 w-[49%] mb-3">
-              <h3 className="font-bold text-lg">Surf and Turf</h3>
-              <p className="font-light mt-1 text-sm">
-                A well done steak with lobster and rice
-              </p>
-              <p className="mt-7">$80.00</p>
-            </div>
+            {menu &&
+              menu.map((item) => (
+                <div key={item.id}>
+                  <MenuCard item={item} />
+                </div>
+              ))}
           </div>
         </div>
       </div>
