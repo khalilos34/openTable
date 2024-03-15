@@ -15,7 +15,7 @@ const HomeBanner = () => {
             <input
               type="text"
               name="search"
-              className="outline-none placeholder:font-light "
+              className="outline-none  placeholder:font-light "
               placeholder="Location, Restaurant, Cuisine"
             />
           </div>

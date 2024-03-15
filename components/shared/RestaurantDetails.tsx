@@ -1,16 +1,19 @@
+"use client";
 import React from "react";
 import { BiMessage } from "react-icons/bi";
 import { CiMoneyBill } from "react-icons/ci";
 import { GoStar, GoStarFill } from "react-icons/go";
 import { PiForkKnife } from "react-icons/pi";
 import Navbar from "./Navbar";
+import { Restaurant } from "@/types";
+import Image from "next/image";
 
-const RestaurantOverview = () => {
+const RestaurantDetails = ({ restaurant }: { restaurant: Restaurant }) => {
   return (
     <div className="bg-white w-[70%] rounded p-3 shadow relative">
-      <Navbar />
+      <Navbar slug={restaurant.slug} />
       <div className="mt-4 border-b pb-6">
-        <h1 className="font-bold text-6xl">Milesstone Grill</h1>
+        <h1 className="font-bold text-6xl">{restaurant?.name}</h1>
       </div>
       <div className="flex items-end justify-around">
         <div className=" mt-2 flex items-center text-red-primary">
@@ -28,11 +31,11 @@ const RestaurantOverview = () => {
         <div className="flex items-center gap-1">
           <CiMoneyBill size={25} />
 
-          <p className="text-reg">$$$$</p>
+          <p className="text-reg">{restaurant?.price}</p>
         </div>
         <div className="flex items-center gap-1">
           <PiForkKnife size={25} />
-          <p className="text-reg">$$$$</p>
+          <p className="text-reg">{restaurant.cuisine.name}</p>
         </div>
       </div>
       {/* RATING */} {/* DESCRIPTION */}
@@ -48,45 +51,24 @@ const RestaurantOverview = () => {
         </p>
       </div>
       <div className="mt-4">
-        <p className="text-lg font-light">
-          The classics you love prepared with a perfect twist, all served up in
-          an atmosphere that feels just right. That’s the Milestones promise.
-          So, whether you’re celebrating a milestone, making the most of Happy
-          Hour or enjoying brunch with friends, you can be sure that every
-          Milestones experience is a simple and perfectly memorable one.
-        </p>
+        <p className="text-lg font-light">{restaurant.description}</p>
       </div>
       {/* DESCRIPTION */} {/* IMAGES */}
       <div>
         <h1 className="font-bold text-3xl mt-10 mb-7 border-b pb-5">
-          5 photos
+          {restaurant.images.length} phots
         </h1>
         <div className="flex flex-wrap">
-          <img
-            className="w-56 h-44 mr-1 mb-1"
-            src="https://resizer.otstatic.com/v2/photos/xlarge/3/41701449.jpg"
-            alt=""
-          />
-          <img
-            className="w-56 h-44 mr-1 mb-1"
-            src="https://resizer.otstatic.com/v2/photos/xlarge/2/41701450.jpg"
-            alt=""
-          />
-          <img
-            className="w-56 h-44 mr-1 mb-1"
-            src="https://resizer.otstatic.com/v2/photos/xlarge/2/41701452.jpg"
-            alt=""
-          />
-          <img
-            className="w-56 h-44 mr-1 mb-1"
-            src="https://resizer.otstatic.com/v2/photos/xlarge/2/41701453.jpg"
-            alt=""
-          />
-          <img
-            className="w-56 h-44 mr-1 mb-1"
-            src="https://resizer.otstatic.com/v2/photos/xlarge/2/41701454.jpg"
-            alt=""
-          />
+          {restaurant.images.map((image: any) => (
+            <Image
+              key={image}
+              src={image}
+              alt="images"
+              width={200}
+              height={200}
+              className="w-56 h-44 mr-1 mb-1"
+            />
+          ))}
         </div>
       </div>
       {/* IMAGES */} {/* REVIEWS */}
@@ -126,4 +108,4 @@ const RestaurantOverview = () => {
   );
 };
 
-export default RestaurantOverview;
+export default RestaurantDetails;

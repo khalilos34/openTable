@@ -1,8 +1,10 @@
 import Carad from "@/components/shared/Carad";
 import HomeBanner from "@/components/shared/HomeBanner";
-import Image from "next/image";
+import { getAllRestaurant } from "@/lib/actions/restaurant.actions";
 
-export default function Home() {
+export default async function Home() {
+  const restaurants = await getAllRestaurant();
+
   return (
     <main>
       <HomeBanner />
@@ -11,15 +13,12 @@ export default function Home() {
           Find Somthing To Eat
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-10 mt-10">
-          <Carad src="/images/res.jpg" />
-          <Carad src="/images/resto.jpg" />
-          <Carad src="/images/resto.jpg" />
-          <Carad src="/images/res.jpg" />
-
-          <Carad src="/images/res.jpg" />
-          <Carad src="/images/resto.jpg" />
-          <Carad src="/images/res.jpg" />
-          <Carad src="/images/resto.jpg" />
+          {restaurants &&
+            restaurants.map((restaurant) => (
+              <div key={restaurant.id}>
+                <Carad restaurant={restaurant} />
+              </div>
+            ))}
         </div>
       </section>
     </main>

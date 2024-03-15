@@ -1,10 +1,10 @@
 import Image from "next/image";
 
-const Banner = () => {
+const Banner = ({ banner }: { banner: string }) => {
   return (
     <div className="h-96 overflow-hidden relative flex justify-center items-center">
       <Image
-        src={"/images/rest.jpg"}
+        src={banner}
         alt="banner"
         width={400}
         height={400}
