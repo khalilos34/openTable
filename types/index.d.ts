@@ -1,6 +1,6 @@
 import { Location ,Cuisine} from "@prisma/client";
 
-declare type Restaurant = {
+declare type Restaurant =  {
     id: number;
     name: string;
     main_image: string;
@@ -9,11 +9,9 @@ declare type Restaurant = {
     open_time: string;
     description: string;
     slug: string;
-    price: PRICE; 
-    
-    location: Location;
-    
-    cuisine: Cuisine;
+    price: PRICE;  
+    location:Location 
+    cuisine: Cuisine
    
   }
   declare type RestauranCardType={
