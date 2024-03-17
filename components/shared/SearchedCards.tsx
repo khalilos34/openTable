@@ -1,15 +1,24 @@
 import { Restaurant } from "@/types";
 import Image from "next/image";
-import { GoStar, GoStarFill } from "react-icons/go";
 import Price from "./Price";
 import Link from "next/link";
+import { calculateReviewRating } from "@/utils/calculations";
+import Stars from "./Stars";
 
 const SearchedCards = ({ restaurants }: { restaurants: Restaurant[] }) => {
+  const convertRatingtoText = (rating: number) => {
+    if (rating > 4) return "Awesome";
+    if (rating > 3 && rating <= 4) return "Good";
+    if (rating <= 3) return "Average";
+  };
   return (
     <div className="w-5/6 ml-6">
       {/* RESAURANT CAR */}
       {restaurants.map((restaurant) => (
-        <div className="border-b flex py-4">
+        <div
+          className="border-b flex flex-col sm:flex-row py-4"
+          key={restaurant.id}
+        >
           <Image
             src={restaurant.main_image}
             alt="image"
@@ -21,13 +30,14 @@ const SearchedCards = ({ restaurants }: { restaurants: Restaurant[] }) => {
             <h2 className="text-3xl text-blue-primary ">{restaurant.slug}</h2>
             <div className="flex items-start">
               <div className="flex text-yellow-500">
-                <GoStarFill size={20} />
-                <GoStarFill size={20} />
-                <GoStarFill size={20} />
-                <GoStarFill size={20} />
-                <GoStar size={20} />
+                <Stars reviews={restaurant.reviews} />
               </div>
-              <p className="ml-2 text-sm font-semibold">Awesome</p>
+              <p className="ml-2 text-sm font-semibold">
+                {calculateReviewRating(restaurant.reviews).toFixed(1)}
+              </p>
+              <p className="ml-2 text-sm font-semibold">
+                {convertRatingtoText(calculateReviewRating(restaurant.reviews))}
+              </p>
             </div>
             <div className="mb-9">
               <div className="font-light flex gap-x-2">

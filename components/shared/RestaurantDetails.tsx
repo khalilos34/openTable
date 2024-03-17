@@ -7,6 +7,9 @@ import { PiForkKnife } from "react-icons/pi";
 import Navbar from "./Navbar";
 import { Restaurant } from "@/types";
 import Image from "next/image";
+import ReviewCard from "./ReviewCard";
+import { calculateReviewRating } from "@/utils/calculations";
+import Stars from "./Stars";
 
 const RestaurantDetails = ({ restaurant }: { restaurant: Restaurant }) => {
   return (
@@ -17,16 +20,18 @@ const RestaurantDetails = ({ restaurant }: { restaurant: Restaurant }) => {
       </div>
       <div className="flex items-end justify-around">
         <div className=" mt-2 flex items-center text-red-primary">
-          <GoStarFill size={20} />
-          <GoStarFill size={20} />
-          <GoStarFill size={20} />
-          <GoStarFill size={20} />
-          <GoStar size={20} />
-          <p className="text-reg ml-3">4.9</p>
+          <Stars reviews={restaurant.reviews} />
+          <p className="text-reg ml-3">
+            {calculateReviewRating(restaurant.reviews).toFixed(1)}
+          </p>
         </div>
         <div className="flex items-center gap-1">
           <BiMessage size={25} />
-          <p className="text-reg">600 Reviews</p>
+          <p className="text-reg">
+            {restaurant.reviews.length > 0
+              ? ` ${restaurant.reviews.length} reviews`
+              : "0 review"}
+          </p>
         </div>
         <div className="flex items-center gap-1">
           <CiMoneyBill size={25} />
@@ -71,39 +76,19 @@ const RestaurantDetails = ({ restaurant }: { restaurant: Restaurant }) => {
           ))}
         </div>
       </div>
-      {/* IMAGES */} {/* REVIEWS */}
       <div>
         <h1 className="font-bold text-3xl mt-10 mb-7 borber-b pb-5">
-          What 100 people are saying
+          {restaurant.reviews.length > 0
+            ? `What ${restaurant.reviews.length} people are saying`
+            : "there are no reviews"}
         </h1>
-        <div>
-          {/* REVIEW CARD */}
-          <div className="border-b pb-7 mb-7">
-            <div className="flex">
-              <div className="w-1/6 flex flex-col items-center">
-                <div className="rounded-full bg-blue-400 w-16 h-16 flex items-center justify-center">
-                  <h2 className="text-white text-2xl">MJ</h2>
-                </div>
-                <p className="text-center">Micheal Jordan</p>
-              </div>
-              <div className="ml-10 w-5/6">
-                <div className="flex items-center">
-                  <div className="flex mr-5">*****</div>
-                </div>
-                <div className="mt-5">
-                  <p className="text-lg font-light">
-                    Laurie was on top of everything! Slow night due to the snow
-                    storm so it worked in our favor to have more one on one with
-                    the staff. Delicious and well worth the money.
-                  </p>
-                </div>
-              </div>
+        {restaurant.reviews.length > 0 &&
+          restaurant.reviews.map((review) => (
+            <div key={review.id}>
+              <ReviewCard review={review} />
             </div>
-          </div>
-          {/* REVIEW CARD */}
-        </div>
+          ))}
       </div>
-      {/* REVIEWS */}
     </div>
   );
 };

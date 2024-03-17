@@ -1,14 +1,17 @@
 import SearchForm from "@/components/shared/SearchForm";
 import SearchedCards from "@/components/shared/SearchedCards";
 import Sidebar from "@/components/shared/Sidebar";
-import { getRestaurantByLocation } from "@/lib/actions/restaurant.actions";
+import {
+  getRestaurantByLocation,
+  getRestaurantByQuery,
+} from "@/lib/actions/restaurant.actions";
 
 const SearchPage = async ({
   searchParams,
 }: {
-  searchParams: { city: string };
+  searchParams: { city?: string; cuisine?: string; price?: string };
 }) => {
-  const restaurants = await getRestaurantByLocation(searchParams.city);
+  const restaurants = await getRestaurantByQuery(searchParams);
 
   return (
     <main className="bg-gray-100 min-h-screen w-screen ">
@@ -19,7 +22,7 @@ const SearchPage = async ({
           </div>
         </div>
         <div className="flex py-4 m-auto w-[85%] gap-x-10 justify-between items-start">
-          <Sidebar />
+          <Sidebar searchParams={searchParams} />
           <SearchedCards restaurants={restaurants} />
         </div>
       </main>

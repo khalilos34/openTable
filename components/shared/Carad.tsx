@@ -3,6 +3,7 @@ import { GoStarFill, GoStar } from "react-icons/go";
 import { GiNotebook } from "react-icons/gi";
 import { RestauranCardType } from "@/types";
 import Link from "next/link";
+import Stars from "./Stars";
 
 const Carad = ({ restaurant }: { restaurant: RestauranCardType }) => {
   const price: any = {
@@ -26,13 +27,14 @@ const Carad = ({ restaurant }: { restaurant: RestauranCardType }) => {
           <h1 className="font-bold text-gray-700">{restaurant.name}</h1>
           <div className="flex justify-between pr-2 items-center text-red-primary">
             <div className="flex">
-              <GoStarFill size={20} />
-              <GoStarFill size={20} />
-              <GoStarFill size={20} />
-              <GoStarFill size={20} />
-              <GoStar size={20} />
+              <Stars reviews={restaurant.reviews} />
             </div>
-            <p className="text-gray-800">.87 reviews</p>
+            <p className="text-gray-800">
+              .
+              {restaurant.reviews.length > 0
+                ? `${restaurant.reviews.length} reviews`
+                : " 0 review"}{" "}
+            </p>
           </div>
           <div className="flex items-center gap-x-4">
             <p>{restaurant.cuisine.name}</p>
