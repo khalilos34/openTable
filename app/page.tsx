@@ -10,7 +10,7 @@ export default async function Home() {
       <HomeBanner />
       <section className="max-w-screen-2xl my-8 m-auto p-14">
         <h1 className="text-3xl  font-bold text-center text-blue-primary ">
-          Find Somthing To Eat
+          Find Something To Eat
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-10 mt-10">
           {restaurants &&

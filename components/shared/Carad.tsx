@@ -12,7 +12,7 @@ const Carad = ({ restaurant }: { restaurant: RestauranCardType }) => {
     CHEAP: "$",
   };
   return (
-    <div className="flex hover:scale-110 rounded-lg flex-col gap-y-2 broder border-gray-600 p-1  shadow-xl pb-4">
+    <div className="flex hover:scale-110 rounded-lg flex-col gap-y-2 border border-gray-600 p-1  shadow-xl pb-4">
       <Link href={`/restaurant/${restaurant.slug}`}>
         <div className="w-full  overflow-hidden">
           <Image
