@@ -17,7 +17,6 @@ const MenuPage = async ({ params }: { params: { slug: string } }) => {
 
             <Menu menu={items} />
           </div>
-          <ReservationForm />
         </div>
       </main>
     </main>

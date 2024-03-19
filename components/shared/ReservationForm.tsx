@@ -36,9 +36,7 @@ const ReservationForm = ({
     <div className="w-[27%] relative ">
       <div className=" w-[20%] bg-white fixed rounded p-3 shadow">
         <div className="text-center border-b pb-2 font-bold">
-          <h4 className="mr-7 text-lg">
-            Make a Reservation {open_time}:::{close_time}
-          </h4>
+          <h4 className="mr-7 text-lg">Make a Reservation</h4>
         </div>
         <div className="my-3 flex flex-col">
           <label htmlFor="">Party size</label>
