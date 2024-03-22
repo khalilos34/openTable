@@ -1,8 +1,6 @@
 import { times } from "@/constants";
 import { PrismaClient } from "@prisma/client";
-import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
-import { json } from "stream/consumers";
 
 const prisma = new PrismaClient();
 export async function GET(req: NextRequest) {
@@ -16,12 +14,6 @@ export async function GET(req: NextRequest) {
   if (!day || !partySize || !time) {
     return NextResponse.json({ error: "Missing required parameters" });
   }
-  const availability = {
-    day,
-    slug,
-    time,
-    partySize,
-  };
 
   const searchTime = times.find((t) => t.time === time)?.searchTime;
   if (!searchTime) return NextResponse.json({ error: "invalid parameters" });
@@ -50,24 +42,47 @@ export async function GET(req: NextRequest) {
   });
   const restaurant = await prisma.restaurant.findUnique({
     where: { slug },
-    select: { tables: true },
+    select: { tables: true, open_time: true, close_time: true },
   });
   if (!restaurant) return NextResponse.json({ error: "invalid parameters" });
   const tables = restaurant.tables;
 
   const searchTimeswithTables = searchTime.map((searchTime) => {
     return {
-      date: new Date(`${day}T${time}`),
+      date: new Date(`${day}T${searchTime}`),
       searchTime,
       tables,
     };
   });
-
-  return NextResponse.json({
-    searchTime,
-    bookings,
-    bookingtableObj,
-    tables,
-    searchTimeswithTables,
+  searchTimeswithTables.forEach((searchTime) => {
+    searchTime.tables = searchTime.tables.filter((table) => {
+      if (bookingtableObj[searchTime.date.toISOString()]) {
+        if (bookingtableObj[searchTime.date.toISOString()][table.id])
+          return false;
+      }
+      return true;
+    });
   });
+  const availability = searchTimeswithTables
+    .map((searchTime) => {
+      const sumSeats = searchTime.tables.reduce(
+        (total, table) => total + table.seats,
+        0
+      );
+      return {
+        time: searchTime.searchTime,
+        availability: sumSeats >= parseInt(partySize),
+      };
+    })
+    .filter((availability) => {
+      const timeIsAfterOpeningHours =
+        new Date(`${day}T${availability.time}`) >=
+        new Date(`${day}T${restaurant.open_time}`);
+      const timeIsBeforeClosingHours =
+        new Date(`${day}T${availability.time}`) <=
+        new Date(`${day}T${restaurant.close_time}`);
+      return timeIsAfterOpeningHours && timeIsBeforeClosingHours;
+    });
+
+  return NextResponse.json(availability);
 }

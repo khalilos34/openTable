@@ -17,11 +17,12 @@ const RestaurantDetailsPage = async ({
     <main className="bg-gray-100 min-h-screen w-screen ">
       <main className="max-w-screen-2xl m-auto  bg-white">
         <Banner banner={restaurantData?.main_image} />
-        <div className="flex m-auto w-[75%] justify-between items-start  -mt-11">
+        <div className="flex flex-col md:flex-row m-auto w-full items-center justify-center  md:w-[75%] md:justify-between md:items-start mb-10   -mt-11">
           <RestaurantDetails restaurant={restaurantData as Restaurant} />
           <ReservationForm
             open_time={restaurantData?.open_time}
             close_time={restaurantData?.close_time}
+            slug={restaurantData?.slug}
           />
         </div>
       </main>
