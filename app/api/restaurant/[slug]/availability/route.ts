@@ -1,8 +1,7 @@
+import { db } from "@/config/db";
 import { times } from "@/constants";
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const pathname = url.pathname;
@@ -18,7 +17,7 @@ export async function GET(req: NextRequest) {
   const searchTime = times.find((t) => t.time === time)?.searchTime;
   if (!searchTime) return NextResponse.json({ error: "invalid parameters" });
 
-  const bookings = await prisma.booking.findMany({
+  const bookings = await db.booking.findMany({
     where: {
       booking_time: {
         gte: new Date(`${day}T${searchTime[0]}`),
@@ -40,7 +39,7 @@ export async function GET(req: NextRequest) {
       {}
     );
   });
-  const restaurant = await prisma.restaurant.findUnique({
+  const restaurant = await db.restaurant.findUnique({
     where: { slug },
     select: { tables: true, open_time: true, close_time: true },
   });

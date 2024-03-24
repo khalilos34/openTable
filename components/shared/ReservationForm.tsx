@@ -47,13 +47,12 @@ const ReservationForm = ({
   const handelFindingTime = () => {
     fetchAvailability({ partySize, day, time, slug });
   };
-  console.log("response data", data);
 
   return (
     <div className=" w-full md:w-[27%] my-10  md:my-0 flex-col flex items-center justify-center relative ">
       <div className=" md:w-[20%] w-1/2  bg-white md:fixed rounded p-3 shadow">
         <div className="text-center border-b pb-2 font-bold">
-          <h4 className="mr-7 text-lg">Make a Reservation</h4>
+          <h4 className="mr-7 text-lg">Make a Reservation {time}</h4>
         </div>
         <div className="my-3 flex flex-col">
           <label htmlFor="">Party size</label>
@@ -109,13 +108,13 @@ const ReservationForm = ({
           <div className="mt-2 flex-col items-start justify-center">
             <p className="my-2">select a time</p>
             <div className="flex flex-wrap gap-2 justify-evenly items-center">
-              {data.map((time) =>
-                time.availability ? (
+              {data.map((t) =>
+                t.availability ? (
                   <Link
                     className="bg-red-600 rounded-sm cursor-pointer p-2 text-center text-white"
                     href={`/reserve/${slug}?date=${day}&time=${time}&partySize=${partySize}`}
                   >
-                    {displayTimeObject[time.time]}
+                    {displayTimeObject[t.time]}
                   </Link>
                 ) : (
                   <div className="bg-gray-300 w-20 h-10 p-2"></div>

@@ -1,9 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { db } from "@/config/db";
 
-
-
-const prisma= new PrismaClient()
- export const getAllLocations =  ()=>{
- return prisma.location.findMany()
- 
-} 
+export const getAllLocations = () => {
+  return db.location.findMany();
+};

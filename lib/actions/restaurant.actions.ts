@@ -1,11 +1,10 @@
 "use server";
 
+import { db } from "@/config/db";
 import { Restaurant } from "@/types";
-import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
 export const getAllRestaurant = async () => {
-  const restaurants = await prisma.restaurant.findMany({
+  const restaurants = await db.restaurant.findMany({
     select: {
       id: true,
       slug: true,
@@ -20,7 +19,7 @@ export const getAllRestaurant = async () => {
   return restaurants;
 };
 export const getRestaurantBySlug = async (slug: string) => {
-  const restaurant = await prisma.restaurant.findUnique({
+  const restaurant = await db.restaurant.findUnique({
     where: {
       slug: slug,
     },
@@ -42,7 +41,7 @@ export const getRestaurantBySlug = async (slug: string) => {
   return restaurant;
 };
 export const getRestaurantMenusItems = async (slug: string) => {
-  const menu = await prisma.restaurant.findUnique({
+  const menu = await db.restaurant.findUnique({
     where: {
       slug,
     },
@@ -74,10 +73,10 @@ export const getRestaurantByLocation = (
     reviews: true,
   };
   if (!location)
-    return prisma.restaurant.findMany({
+    return db.restaurant.findMany({
       select,
     });
-  const restaurant = prisma.restaurant.findMany({
+  const restaurant = db.restaurant.findMany({
     where: {
       location: {
         name: { equals: location.toLowerCase() },
@@ -121,7 +120,7 @@ export const getRestaurantByQuery = (params: {
     cuisine: true,
     reviews: true,
   };
-  const restaurants = prisma.restaurant.findMany({
+  const restaurants = db.restaurant.findMany({
     where,
     select,
   });
