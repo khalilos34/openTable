@@ -1,4 +1,13 @@
-const ReservationPage = () => {
+import { getRestaurantBySlug } from "@/lib/actions/restaurant.actions";
+import Image from "next/image";
+
+const ReservationPage = async ({
+  searchParams,
+}: {
+  searchParams: { slug: string; date: string; partySize: string; time: string };
+}) => {
+  const restaurant = await getRestaurantBySlug(searchParams.slug);
+  if (!restaurant) return null;
   return (
     <div className="border-t h-screen">
       <div className="py-9 w-3/5 m-auto flex flex-col items-center justify-center">
@@ -6,19 +15,19 @@ const ReservationPage = () => {
         <div>
           <h3 className="font-bold">You're almost done!</h3>
           <div className="mt-5 flex">
-            <img
-              src="https://images.otstatic.com/prod1/49153814/2/medium.jpg"
-              alt=""
+            <Image
+              src={restaurant?.main_image}
+              alt="logo"
+              width={32}
+              height={18}
               className="w-32 h-18 rounded"
             />
             <div className="ml-4">
-              <h1 className="text-3xl font-bold">
-                Aiāna Restaurant Collective
-              </h1>
+              <h1 className="text-3xl font-bold">{searchParams.slug}</h1>
               <div className="flex mt-3">
-                <p className="mr-6">Tues, 22, 2023</p>
-                <p className="mr-6">7:30 PM</p>
-                <p className="mr-6">3 people</p>
+                <p className="mr-6">{searchParams.date}</p>
+                <p className="mr-6">{searchParams.time}</p>
+                <p className="mr-6">{searchParams.partySize} people</p>
               </div>
             </div>
           </div>
