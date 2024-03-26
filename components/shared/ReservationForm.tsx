@@ -108,16 +108,17 @@ const ReservationForm = ({
           <div className="mt-2 flex-col items-start justify-center">
             <p className="my-2">select a time</p>
             <div className="flex flex-wrap gap-2 justify-evenly items-center">
-              {data.map((t) =>
+              {data.map((t, i) =>
                 t.availability ? (
                   <Link
                     className="bg-red-600 rounded-sm cursor-pointer p-2 text-center text-white"
                     href={`/reserve/${slug}?date=${day}&time=${time}&partySize=${partySize}`}
+                    key={i}
                   >
                     {displayTimeObject[t.time]}
                   </Link>
                 ) : (
-                  <div className="bg-gray-300 w-20 h-10 p-2"></div>
+                  <div key={i} className="bg-gray-300 w-20 h-10 p-2"></div>
                 )
               )}
             </div>
